@@ -21,7 +21,7 @@ public class Connection extends Thread {
                 System.out.println("[" + name + "] " + msg);
                 msg = in.readLine();
             }    
-            System.out.println("* " + name + " disconnected");
+            GUI.log.addLine("* " + name + " disconnected");
             close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ public class Connection extends Thread {
         try {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeBytes(msg + "\n");
-            System.out.println("[you] " + msg);
+            GUI.log.addLine("[you] " + msg);
         } catch (IOException e) {
             return false;
         }

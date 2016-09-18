@@ -32,7 +32,7 @@ public class Server extends Thread {
                 String otherUsername = in.readLine();
                 out.writeBytes(username + "\n");
 
-                System.out.println("* connection from " + otherUsername);
+                GUI.log.addLine("* connection from " + otherUsername);
 
                 // create connection and store for use
                 Connection c = new Connection(otherUsername, client);
@@ -55,7 +55,7 @@ public class Server extends Thread {
             // get their username
             String otherUsername = in.readLine();
 
-            System.out.println("* connected to " + otherUsername);
+            GUI.log.addLine("* connected to " + otherUsername);
 
             // create and store connection
             Connection c = new Connection(otherUsername, client);

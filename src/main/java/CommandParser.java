@@ -7,13 +7,13 @@ public class CommandParser {
     }
 
     public void parseCommand(String cmd) {
-        if (cmd.charAt(0) == '!') {
+        if (cmd.length() > 0 && cmd.charAt(0) == '!') {
             // this is a command
             String[] split = cmd.split(" ");
             switch(split[0]) {
                 case "!connect":
                     if (split.length < 2) {
-                        System.out.println("usage: !connect <ip>");
+                        GUI.log.addLine("usage: !connect <ip>");
                     } else {
                         server.connect(split[1]);
                     }
@@ -27,7 +27,7 @@ public class CommandParser {
                 if (server.getSelectedConnection() != null)
                     server.getSelectedConnection().sendMessage(cmd);
             } else {
-                System.out.println("* you are not connected to anyone");
+                GUI.log.addLine("* you are not connected to anyone");
             }
         }
     }

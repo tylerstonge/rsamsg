@@ -6,29 +6,24 @@
  */
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.ArrayList;
+
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.SimpleTheme;
+import com.googlecode.lanterna.gui2.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        
-        System.out.println("sotrm: 0.0.0a");
-        System.out.print("username: ");
-        String username = s.nextLine();
-
         try {
-            // Start server
-            Server server = new Server(username);
-            server.start();
-
-            // Handle user input
-            CommandParser parser = new CommandParser(server);
-            String input = null;
-            while (true) {
-                if ((input = s.nextLine()) != null) {
-                    parser.parseCommand(input);
-                }
-            }
+            GUI gui = new GUI();
         } catch (IOException e) {
             e.printStackTrace();
         }
