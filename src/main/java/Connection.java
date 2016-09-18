@@ -28,17 +28,22 @@ public class Connection extends Thread {
         }
     }
 
-    public void sendMessage(String msg) {
+    public boolean sendMessage(String msg) {
         try {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeBytes(msg + "\n");
             System.out.println("[you] " + msg);
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void close() throws IOException {
         socket.close();
+    }
+
+    public boolean isClosed() {
+        return socket.isClosed();
     }
 }

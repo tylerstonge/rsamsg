@@ -79,4 +79,8 @@ public class Server extends Thread {
         return this.selectedConnection;
     }
 
+    public void setSelectedConnection(Connection c) {
+        this.selectedConnection = c;
+    }
+
 }
