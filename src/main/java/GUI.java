@@ -18,6 +18,7 @@ public class GUI {
     private Label header; 
     private Server server;
     public static OutputTextBox log;
+    public static InputTextBox userin;
 
     public GUI() throws IOException {
         Terminal terminal = new DefaultTerminalFactory().createTerminal();
@@ -50,10 +51,9 @@ public class GUI {
         panel.addComponent(log);
 
         // user input textbox
-        InputTextBox userin = new InputTextBox(server);
+        userin = new InputTextBox(server);
         userin.setSize(new TerminalSize(size.getColumns(), 1));
         userin.setPosition(new TerminalPosition(0, size.getRows()));
-        userin.takeFocus();
         userin.setTheme(new SimpleTheme(TextColor.ANSI.GREEN, TextColor.ANSI.BLACK));
         panel.addComponent(userin);
 
