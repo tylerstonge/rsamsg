@@ -21,10 +21,14 @@ public class CommandParser {
             }
         } else{
             // this is just a message
-            if (server.getSelectedConnection().isClosed())
-                server.setSelectedConnection(null);
-            if (server.getSelectedConnection() != null)
-                server.getSelectedConnection().sendMessage(cmd);
+            if (server.getSelectedConnection() != null) {
+                if (server.getSelectedConnection().isClosed())
+                    server.setSelectedConnection(null);
+                if (server.getSelectedConnection() != null)
+                    server.getSelectedConnection().sendMessage(cmd);
+            } else {
+                System.out.println("* you are not connected to anyone");
+            }
         }
     }
 }
