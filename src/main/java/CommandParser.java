@@ -6,6 +6,10 @@ public class CommandParser {
         this.server = server;
     }
 
+    public void shutdown() {
+        System.exit(0);
+    }
+
     public void parseCommand(String cmd) {
         if (cmd.length() > 0) {
             if (cmd.charAt(0) == '!') {
@@ -18,6 +22,9 @@ public class CommandParser {
                         } else {
                             server.connect(split[1]);
                         }
+                        break;
+                    case "!quit":
+                        shutdown();
                         break;
                 }
             } else{
