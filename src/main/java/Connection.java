@@ -18,7 +18,7 @@ public class Connection extends Thread {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String msg = in.readLine();
             while (msg != null) {
-                System.out.println("[" + name + "] " + msg);
+                GUI.log.addLine("[" + name + "] " + msg);
                 msg = in.readLine();
             }    
             GUI.log.addLine("* " + name + " disconnected");
