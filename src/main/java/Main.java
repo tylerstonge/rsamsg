@@ -23,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            GUI gui = new GUI();
+            Application app = new Application();
         } catch (IOException e) {
             e.printStackTrace();
         }

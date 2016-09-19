@@ -18,7 +18,7 @@ public class CommandParser {
                 switch(split[0]) {
                     case "!connect":
                         if (split.length < 2) {
-                            GUI.log.addLine("usage: !connect <ip>");
+                            Application.log.addLine("usage: !connect <ip>");
                         } else {
                             server.connect(split[1]);
                         }
@@ -28,9 +28,10 @@ public class CommandParser {
                         break;
                     case "!setusername":
                         if (split.length < 2) {
-                            GUI.log.addLine("usage: !setusername <username>");
+                            Application.log.addLine("usage: !setusername <username>");
                         } else {
                             server.setUsername(split[1]);
+                            Application.log.addLine("* username set to " + split[1]);
                         }
                         break;
                 }
@@ -42,7 +43,7 @@ public class CommandParser {
                     if (server.getSelectedConnection() != null)
                         server.getSelectedConnection().sendMessage(cmd);
                 } else {
-                    GUI.log.addLine("* you are not connected to anyone");
+                    Application.log.addLine("* you are not connected to anyone");
                 }
             }
         }

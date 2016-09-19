@@ -18,10 +18,10 @@ public class Connection extends Thread {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String msg = in.readLine();
             while (msg != null) {
-                GUI.log.addLine("[" + name + "] " + msg);
+                Application.log.addLine("[" + name + "] " + msg);
                 msg = in.readLine();
             }    
-            GUI.log.addLine("* " + name + " disconnected");
+            Application.log.addLine("* " + name + " disconnected");
             close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ public class Connection extends Thread {
         try {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeBytes(msg + "\n");
-            GUI.log.addLine("[you] " + msg);
+            Application.log.addLine("[you] " + msg);
         } catch (IOException e) {
             return false;
         }

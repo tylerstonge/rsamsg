@@ -13,14 +13,14 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.*;
 
 
-public class GUI {
+public class Application {
    
     private Label header; 
     private Server server;
     public static OutputTextBox log;
     public static InputTextBox userin;
 
-    public GUI() throws IOException {
+    public Application() throws IOException {
         Terminal terminal = new DefaultTerminalFactory().createTerminal();
         Screen screen = new TerminalScreen(terminal);
         screen.startScreen();
