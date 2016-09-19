@@ -67,6 +67,10 @@ public class Server extends Thread {
         }
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public boolean isListening() {
         return listening;
     }

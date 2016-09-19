@@ -26,6 +26,13 @@ public class CommandParser {
                     case "!quit":
                         shutdown();
                         break;
+                    case "!setusername":
+                        if (split.length < 2) {
+                            GUI.log.addLine("usage: !setusername <username>");
+                        } else {
+                            server.setUsername(split[1]);
+                        }
+                        break;
                 }
             } else{
                 // this is just a message
