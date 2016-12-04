@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Encryption {
     private static final int BLOCKSIZE = 32; // in bytes
-    private static final int KEYSIZE = 1024; // in bits
+    private static final int KEYSIZE = 2048; // in bits
     private static final BigInteger e = new BigInteger("733");
     private BigInteger p;
     private BigInteger q;
