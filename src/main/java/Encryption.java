@@ -33,19 +33,29 @@ public class Encryption {
     
     public String decrypt(byte[] ciphertext) {
         ByteArrayInputStream in = new ByteArrayInputStream(ciphertext);
-        String result = "";
+        byte[] result = null;
+        String cleartext = "";
         byte[] buffer = new byte[BLOCKSIZE];
         int len;
         try {
             while((len = in.read(buffer, 0, BLOCKSIZE)) > 0) {
+                System.out.println("dBlock");
                 BigInteger tc = (new BigInteger(buffer)).modPow(myPriv, myPub);
                 byte[] c = tc.toByteArray();
-                result += new String(c, "utf-8");
+                if (result == null) {
+                    result = c;
+                } else {
+                    byte[] t = result;
+                    result = new byte[t.length + c.length];
+                    System.arraycopy(t, 0, result, 0, t.length);
+                    System.arraycopy(c, 0, result, t.length, c.length);
+                }
             }
+            cleartext = new String(result, StandardCharsets.UTF_8);
         } catch (IOException e) {
             System.out.println("Could not perform IO in decrypt");
         } 
-        return result;
+        return cleartext;
     }
     
     public BigInteger getPublicKey() {
@@ -60,6 +70,7 @@ public class Encryption {
             int len;
             int count = 0;
             while ((len = in.read(buffer, 0, BLOCKSIZE)) > 0) {
+                System.out.println("eBLOCK");
                 BigInteger tc = (new BigInteger(buffer)).modPow(e, otherPub);
                 byte[] c = tc.toByteArray();
                 out.write(c, count * BLOCKSIZE, c.length);
