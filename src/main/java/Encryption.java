@@ -30,7 +30,7 @@ public class Encryption {
     public String decrypt(byte[] ciphertext) {
         ByteArrayInputStream in = new ByteArrayInputStream(ciphertext);
         String result = "";
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[256];
         int len;
         try {
             while((len = in.read(buffer)) > 0) {
@@ -52,7 +52,7 @@ public class Encryption {
         try {
             ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes("utf-8"));
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[256];
             int len;
             int count = 0;
             while ((len = in.read(buffer)) > 0) { 
