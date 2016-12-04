@@ -70,7 +70,7 @@ public class Encryption {
                 System.out.println("eBLOCK");
                 BigInteger tc = (new BigInteger(buffer)).modPow(e, otherPub);
                 byte[] c = tc.toByteArray();
-                out.write(c, count * BLOCKSIZE, c.length);
+                out.write(c, count * BLOCKSIZE, BLOCKSIZE);
                 count += 1;
             }
             System.out.println(out.size() + "");
