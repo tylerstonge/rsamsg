@@ -54,11 +54,11 @@ public class Encryption {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int len;
-            int count = 1;
+            int count = 0;
             while ((len = in.read(buffer)) > 0) { 
                 BigInteger tc = (new BigInteger(buffer)).modPow(new BigInteger(Integer.toString(e)), otherPub);
                 byte[] c = tc.toByteArray();
-                out.write(c, count * 1024, 1024);
+                out.write(c, count * 1024, c.length);
                 count += 1;
             }
             return out.toByteArray();
