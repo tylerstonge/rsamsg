@@ -12,8 +12,8 @@ import java.nio.charset.StandardCharsets;
 
 
 public class Encryption {
-    private static final int BLOCKSIZE = 256; // in bytes
-    private static final int KEYSIZE = 512; // in bytes
+    private static final int BLOCKSIZE = 32; // in bytes
+    private static final int KEYSIZE = 1024; // in bits
     private static final BigInteger e = new BigInteger("733");
     private BigInteger p;
     private BigInteger q;
@@ -21,8 +21,8 @@ public class Encryption {
     private BigInteger myPriv;
     
     public Encryption() {
-        this.p = BigInteger.probablePrime(KEYSIZE * 8, new Random());
-        this.q = BigInteger.probablePrime(KEYSIZE * 8, new Random());
+        this.p = BigInteger.probablePrime(KEYSIZE, new Random());
+        this.q = BigInteger.probablePrime(KEYSIZE, new Random());
         this.myPub = p.multiply(q);
         BigInteger totient = p.subtract(new BigInteger("1")).multiply(q.subtract(new BigInteger("1")));
         // private key = (priv)e == 1 (mod totient(pq))
@@ -73,6 +73,7 @@ public class Encryption {
                 out.write(c, count * BLOCKSIZE, c.length);
                 count += 1;
             }
+            System.out.println(out.size() + "");
             return out.toByteArray();
         } catch (UnsupportedEncodingException e) {
             System.out.println("Malformed message sent to encrypt");
