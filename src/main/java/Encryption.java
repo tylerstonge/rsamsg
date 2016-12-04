@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Encryption {
     
-    public static final int e = 733;
+    private static final BigInteger e = new BigInteger("733");
     private BigInteger p;
     private BigInteger q;
     private BigInteger myPub;
@@ -23,8 +23,12 @@ public class Encryption {
         this.p = BigInteger.probablePrime(512, new Random());
         this.q = BigInteger.probablePrime(512, new Random());
         this.myPub = p.multiply(q);
-        //BigInteger totient = p.subtract(new BigInteger("1")).multiply(q.subtract(new BigInteger("1")));
-        this.myPriv = q.modInverse(p);
+        BigInteger totient = p.subtract(new BigInteger("1")).multiply(q.subtract(new BigInteger("1")));
+        // private key = (priv)e == 1 (mod totient(pq))
+        BigInteger[] ans = Encryption.extendedEuclidean(e, totient);
+        //System.out.println("gcd = " + ans[0].toString() + "\na = " + ans[1].toString() + "\nb = " + ans[2].toString());
+        //System.out.println("VERIFICATION: " + ans[1].multiply(e).mod(totient).toString());
+        this.myPriv = ans[1];
     }
     
     public String decrypt(byte[] ciphertext) {
@@ -36,7 +40,7 @@ public class Encryption {
             while((len = in.read(buffer)) > 0) {
                 BigInteger tc = (new BigInteger(buffer)).modPow(myPriv, myPub);
                 byte[] c = tc.toByteArray();
-                result += new String(c);
+                result += new String(c, "utf-8");
             }
         } catch (IOException e) {
             System.out.println("Could not perform IO in decrypt");
@@ -56,9 +60,9 @@ public class Encryption {
             int len;
             int count = 0;
             while ((len = in.read(buffer)) > 0) { 
-                BigInteger tc = (new BigInteger(buffer)).modPow(new BigInteger(Integer.toString(e)), otherPub);
+                BigInteger tc = (new BigInteger(buffer)).modPow(e, otherPub);
                 byte[] c = tc.toByteArray();
-                out.write(c, count * 1024, c.length);
+                out.write(c, count * 256, c.length);
                 count += 1;
             }
             return out.toByteArray();
@@ -68,5 +72,22 @@ public class Encryption {
             System.out.println("Could not perform IO in encrypt");
         }
         return null;
+    }
+    
+    private static final BigInteger[] extendedEuclidean(BigInteger a, BigInteger b) {
+        BigInteger[] ans = new BigInteger[3];
+        BigInteger q;
+        if (b.equals(new BigInteger("0"))) {
+            ans[0] = a;
+            ans[1] = new BigInteger("1");
+            ans[2] = new BigInteger("0");
+        } else {
+            q = a.divide(b);
+            ans = extendedEuclidean(b, a.mod(b));
+            BigInteger t = ans[1].subtract(ans[2].multiply(q));
+            ans[1] = ans[2];
+            ans[2] = t;
+        }
+        return ans;
     }
 }
