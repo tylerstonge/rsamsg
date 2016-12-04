@@ -21,10 +21,11 @@ public class Encryption {
     private BigInteger myPriv;
     
     public Encryption() {
-        this.p = BigInteger.probablePrime(KEYSIZE, new Random());
-        this.q = BigInteger.probablePrime(KEYSIZE, new Random());
+        Random sRand = new SecureRandom();
+        this.p = BigInteger.probablePrime(KEYSIZE, sRand);
+        this.q = BigInteger.probablePrime(KEYSIZE, sRand);
         this.myPub = p.multiply(q);
-        BigInteger totient = p.subtract(new BigInteger("1")).multiply(q.subtract(new BigInteger("1")));
+        BigInteger totient = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
         // private key = (priv)e == 1 (mod totient(pq))
         BigInteger[] ans = Encryption.extendedEuclidean(e, totient);
         //System.out.println("gcd = " + ans[0].toString() + "\na = " + ans[1].toString() + "\nb = " + ans[2].toString());
@@ -33,7 +34,7 @@ public class Encryption {
     }
     
     public String decrypt(byte[] ciphertext) {
-        ByteArrayInputStream in = new ByteArrayInputStream(ciphertext);
+        /*ByteArrayInputStream in = new ByteArrayInputStream(ciphertext);
         byte[] result = null;
         String cleartext = "";
         byte[] buffer = new byte[BLOCKSIZE];
@@ -52,7 +53,8 @@ public class Encryption {
             }
         }
         cleartext = new String(result, StandardCharsets.UTF_8);
-        return cleartext;
+        return cleartext;*/
+        return new String((new BigInteger(ciphertext)).modPow(myPriv, myPub).toByteArray());
     }
     
     public BigInteger getPublicKey() {
@@ -60,7 +62,7 @@ public class Encryption {
     }
     
     public static byte[] encrypt(BigInteger otherPub, String message) {
-        try {
+        /*try {
             ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes("utf-8"));
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[BLOCKSIZE];
@@ -78,7 +80,8 @@ public class Encryption {
         } catch (UnsupportedEncodingException e) {
             System.out.println("Malformed message sent to encrypt");
         }
-        return null;
+        return null;*/
+        return (new BigInteger(message.getBytes())).modPow(e, otherPub).toByteArray();
     }
     
     private static final BigInteger[] extendedEuclidean(BigInteger a, BigInteger b) {
