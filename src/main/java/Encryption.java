@@ -17,7 +17,6 @@ public class Encryption {
     private BigInteger q;
     private BigInteger myPub;
     private BigInteger myPriv;
-    private BigInteger otherPub;
     
     public Encryption() {
         this.p = BigInteger.probablePrime(512, new Random());
