@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 
 public class Encryption {
@@ -37,24 +38,20 @@ public class Encryption {
         String cleartext = "";
         byte[] buffer = new byte[BLOCKSIZE];
         int len;
-        try {
-            while((len = in.read(buffer, 0, BLOCKSIZE)) > 0) {
-                System.out.println("dBlock");
-                BigInteger tc = (new BigInteger(buffer)).modPow(myPriv, myPub);
-                byte[] c = tc.toByteArray();
-                if (result == null) {
-                    result = c;
-                } else {
-                    byte[] t = result;
-                    result = new byte[t.length + c.length];
-                    System.arraycopy(t, 0, result, 0, t.length);
-                    System.arraycopy(c, 0, result, t.length, c.length);
-                }
+        while((len = in.read(buffer, 0, BLOCKSIZE)) > 0) {
+            System.out.println("dBlock");
+            BigInteger tc = (new BigInteger(buffer)).modPow(myPriv, myPub);
+            byte[] c = tc.toByteArray();
+            if (result == null) {
+                result = c;
+            } else {
+                byte[] t = result;
+                result = new byte[t.length + c.length];
+                System.arraycopy(t, 0, result, 0, t.length);
+                System.arraycopy(c, 0, result, t.length, c.length);
             }
-            cleartext = new String(result, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            System.out.println("Could not perform IO in decrypt");
-        } 
+        }
+        cleartext = new String(result, StandardCharsets.UTF_8);
         return cleartext;
     }
     
@@ -79,8 +76,6 @@ public class Encryption {
             return out.toByteArray();
         } catch (UnsupportedEncodingException e) {
             System.out.println("Malformed message sent to encrypt");
-        } catch (IOException e) {
-            System.out.println("Could not perform IO in encrypt");
         }
         return null;
     }
