@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 public class Encryption {
-    
+    private static final int BLOCKSIZE = 256;
     private static final BigInteger e = new BigInteger("733");
     private BigInteger p;
     private BigInteger q;
@@ -33,7 +33,7 @@ public class Encryption {
     public String decrypt(byte[] ciphertext) {
         ByteArrayInputStream in = new ByteArrayInputStream(ciphertext);
         String result = "";
-        byte[] buffer = new byte[256];
+        byte[] buffer = new byte[BLOCKSIZE];
         int len;
         try {
             while((len = in.read(buffer)) > 0) {
@@ -55,13 +55,13 @@ public class Encryption {
         try {
             ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes("utf-8"));
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[256];
+            byte[] buffer = new byte[BLOCKSIZE];
             int len;
             int count = 0;
             while ((len = in.read(buffer)) > 0) { 
                 BigInteger tc = (new BigInteger(buffer)).modPow(e, otherPub);
                 byte[] c = tc.toByteArray();
-                out.write(c, count * 256, c.length);
+                out.write(c, count * BLOCKSIZE, c.length);
                 count += 1;
             }
             return out.toByteArray();
