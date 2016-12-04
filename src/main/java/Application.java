@@ -17,6 +17,7 @@ public class Application {
    
     private Label header; 
     private Server server;
+    private Encryption e;
     public static OutputTextBox log;
     public static InputTextBox userin;
 
@@ -25,8 +26,10 @@ public class Application {
         Screen screen = new TerminalScreen(terminal);
         screen.startScreen();
         
+        e = new Encryption();
+        
         // Start server
-        server = new Server("dropkick");
+        server = new Server("Turing", e);
         server.start();
         
         // version data top of screen
@@ -37,7 +40,7 @@ public class Application {
         panel.setTheme(new SimpleTheme(TextColor.ANSI.GREEN, TextColor.ANSI.BLACK));
 
         // header
-        header = new Label("[sotrm v0.0.0-dev]");
+        header = new Label("[rsamsg v0.0.0-dev]");
         header.setSize(new TerminalSize(size.getColumns(), 1));
         header.setPosition(TerminalPosition.TOP_LEFT_CORNER);
         header.setTheme(new SimpleTheme(TextColor.ANSI.GREEN, TextColor.ANSI.BLACK));
@@ -74,6 +77,7 @@ public class Application {
         window.setComponent(panel);
         
         MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
+        userin.takeFocus();
         gui.addWindowAndWait(window);
     }
 
